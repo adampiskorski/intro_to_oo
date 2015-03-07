@@ -1,0 +1,39 @@
+class IntStr():
+    """Understands text version of numbers and allows you to manipulate them
+    as numbers.
+    
+    Args:
+      intstr (str): A number word (such as 'two') or string repr of an int
+      (such as '2') up to 20.
+    """
+    
+    def __init__(self, intstr):
+        self.orig = intstr
+        try:
+            self.int = int(intstr)
+        except:
+            intstr = intstr.lower()
+            self.int = STRING_NUMBER.get(intstr,None)
+        if not self.int:
+            raise ValueError("Not a recognized string representation of a \
+                number!")
+        
+    def __repr__(self):
+        """Converts the int value and returns the word version"""
+        for k,v in STRING_NUMBER.items():
+            if v == self.int:
+                return k
+            
+    def __add__(self, b):
+        """Adds the ints together and returns the word version of it"""
+        res = self.int + b.int
+        return IntStr(res).__repr__()
+    
+    def __sub__(self, b):
+        """Gets the difference and returns the word version of it"""
+        res = self.int - b.int
+        return IntStr(res).__repr__()
+    
+    def val(self):
+        """Gets and returns the interger representation"""
+        return self.int
